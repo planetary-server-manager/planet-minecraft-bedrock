@@ -1,1 +1,2 @@
-sleep 300
+cd /server
+./bedrock_server
