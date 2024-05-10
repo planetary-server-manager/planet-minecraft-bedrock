@@ -1,7 +1,10 @@
 # Minecraft Bedrock Dedicated Server
-This is a Docker container for a Minecraft Bedrock Edition dedicated server. 
+Containerized Minecraft Bedrock server for easy portability, deployment, and configuration.
 
 > **Note**: This image is currently in development. While functional, there are still many rough edges and missing features.
+
+# Summary
+This is an all-in one container for running a Minecraft Bedrock server. Each version tag corresponds to the Minecraft Bedrock dedicated server version that comes bundled in.
 
 # Environment Variables
 These environment variables map directly to the settings in the **server.properties** file.

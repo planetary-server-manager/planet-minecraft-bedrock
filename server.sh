@@ -1,4 +1,5 @@
-cd /server
+# Copy files to /server if it's empty
+ls /server/server.properties && cd /server || cp -RT /prep/ /server/ && rm -R /prep && cd /server
 # Configure server properties
 sed -i "s/server-name=Dedicated Server/server-name=$SERVER_NAME/g" server.properties
 sed -i "s/level-name=Bedrock level/level-name=$LEVEL_NAME/g" server.properties
