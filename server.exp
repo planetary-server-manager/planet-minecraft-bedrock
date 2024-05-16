@@ -6,14 +6,13 @@ spawn /server.sh
 
 while true {
     expect {
-        "Server started.\r" {
+        "Server started." {
             send "save hold\r"
             expect "Saving..."
             send "save query\r"
             expect {
                 "Data saved." {
                     exec ./backup-map.sh
-                    sleep 5
                 }
                 timeout {
                     exp_continue
@@ -22,14 +21,13 @@ while true {
             send "save resume\r"
         }
         timeout {
-            sleep $BACKUP_INTERVAL_SECONDS
+            exec ./backup-pause.sh
             send "save hold\r"
             expect "Saving..."
             send "save query\r"
             expect {
                 "Data saved." {
                     exec ./backup-map.sh
-                    sleep 5
                 }
                 timeout {
                     exp_continue

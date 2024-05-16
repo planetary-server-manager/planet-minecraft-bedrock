@@ -40,7 +40,8 @@ ENV TIMEZONE=America/Los_Angeles \
     SERVER_BUILD_RADIUS_RATIO="Disabled" \
     ALLOW_OUTBOUND_SCRIPT_DEBUGGING=false \
     ALLOW_INBOUND_SCRIPT_DEBUGGING=false \
-    SCRIPT_DEBUGGER_AUTO_ATTACH="disabled"
+    SCRIPT_DEBUGGER_AUTO_ATTACH="disabled" \
+    TELEMETRY=false
 
 EXPOSE 19132-19133/udp
 
@@ -58,11 +59,13 @@ COPY server.sh server.sh
 COPY server.exp server.exp
 COPY bootstrap.sh bootstrap.sh
 COPY backup-map.sh backup-map.sh
+COPY backup-pause.sh backup-pause.sh
 
 RUN chmod +x server.sh
 RUN chmod +x /prep/bedrock_server
 RUN chmod +x server.exp
 RUN chmod +x bootstrap.sh
 RUN chmod +x backup-map.sh
+RUN chmod +x backup-pause.sh
 
 CMD ["/bin/bash", "bootstrap.sh"]

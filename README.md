@@ -14,9 +14,9 @@ Automatic backups are turned **off** by default. To utilize automatic backups, y
 If you would rather do your own backups manually, your (live) world is contained in the **/server/worlds** folder. I **highly** recommend utilizing the "save" commands described in **/server/bedrock_server_how_to.html** to avoid world corruption.
 
 ### How Backups Work
-If **BACKUPS** is set to **true**, then each time the container is run, it will automatically create a backup of your **WORLD_NAME** in the **/world-backups** folder. Each backup will be appended with the date and time (%Y-%m-%d_%H:%M:%S format). 
+If **BACKUPS** is set to **true**, then each time the container is run, it will automatically create a backup of your **WORLD_NAME** in the **/world-backups** folder. Each backup will be appended with the date and time (%Y-%m-%d_%H-%M-%S format). 
 
-> **Example**: If your world is called **"jellie-frontier"**, and the map is saved on January 2nd, 2024 at exactly 3:45am, the backup will be called **"jellie-frontier-20204-01-02_03:45:00"**.
+> **Example**: If your world is called **"jellie-frontier"**, and the map is saved on January 2nd, 2024 at exactly 3:45am, the backup will be called **"jellie-frontier-20204-01-02_03-45-00"**.
 
 After the initial backup, it will periodically make new backups according to the value of **BACKUP_INTERVAL** in hours. 
 
@@ -71,3 +71,4 @@ These environment variables map directly to the settings in the **server.propert
 | ALLOW_OUTBOUND_SCRIPT_DEBUGGING | true, false | false | Always | Allows script debugger 'connect' command and script-debugger-auto-attach=connect mode. | 
 | ALLOW_INBOUND_SCRIPT_DEBUGGING | true, false | false | Always | Allows script debugger 'listen' command and script-debugger-auto-attach=listen mode. |
 | SCRIPT_DEBUGGER_AUTO_ATTACH | disabled, connect, listen | disabled | Always | Attempt to attach script debugger at level load, requires that either inbound port or connect address is set and that inbound or outbound connections are enabled. <br> **"disabled"** will not auto attach. <br> **"connect"** server will attempt to connect to debugger in listening mode on the specified port. <br> **"listen"** server will listen to inbound connect attempts from debugger using connect mode on the specified port. |
+| TELEMETRY | true, false | false | Always | Setting to **true** will send server telemetry data to Microsoft. It's unclear exactly what telemetry is collected, but it's likely similar to [Java Edition's telemetry](https://minecraft.wiki/w/Telemetry#Telemetry_Data_Collection). |

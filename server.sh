@@ -36,5 +36,9 @@ sed -i "s/server-build-radius-ratio=Disabled/server-build-radius-ratio=$SERVER_B
 sed -i "s/allow-outbound-script-debugging=false/allow-outbound-script-debugging=$ALLOW_OUTBOUND_SCRIPT_DEBUGGING/g" server.properties
 sed -i "s/allow-inbound-script-debugging=false/allow-inbound-script-debugging=$ALLOW_INBOUND_SCRIPT_DEBUGGING/g" server.properties
 sed -i "s/script-debugger-auto-attach=disabled/script-debugger-auto-attach=$SCRIPT_DEBUGGER_AUTO_ATTACH/g" server.properties
+# Enable/Disable Telemetry
+cat server.properties | grep emit-server-telemetry= && \
+sed -i "s/emit-server-telemetry=.*/emit-server-telemetry=$TELEMETRY/g" server.properties || \
+echo "emit-server-telemetry=$TELEMETRY" >> server.properties
 # Start server
 ./bedrock_server
