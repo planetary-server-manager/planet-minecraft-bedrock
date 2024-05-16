@@ -1,9 +1,10 @@
+#!/bin/bash
 # Copy files to /server if it's empty
-ls /server/server.properties && cd /server || cp -RT /prep/ /server/ && rm -R /prep && cd /server
+ls /server/server.properties && cd /server || cp -RT /prep/ /server/ && rm -R /prep && cd /server && \
 # Configure server properties
 sed -i "s/server-name=Dedicated Server/server-name=$SERVER_NAME/g" server.properties
-sed -i "s/level-name=Bedrock level/level-name=$LEVEL_NAME/g" server.properties
-sed -i "s/level-seed=/level-seed=$LEVEL_SEED/g" server.properties
+sed -i "s/level-name=Bedrock level/level-name=$WORLD_NAME/g" server.properties
+sed -i "s/level-seed=/level-seed=$WORLD_SEED/g" server.properties
 sed -i "s/gamemode=survival/gamemode=$GAMEMODE/g" server.properties
 sed -i "s/force-gamemode=false/force-gamemode=$FORCE_GAMEMODE/g" server.properties
 sed -i "s/difficulty=easy/difficulty=$DIFFICULTY/g" server.properties

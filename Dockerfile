@@ -6,8 +6,10 @@ ENV TIMEZONE=America/Los_Angeles \
     PUID=0 \
     PGID=0 \
     SERVER_NAME="Jellie Frontier Server" \
-    LEVEL_NAME="jellie-frontier" \
-    LEVEL_SEED= \
+    WORLD_NAME="jellie-frontier" \
+    WORLD_SEED= \
+    BACKUPS=false \
+    BACKUP_INTERVAL=24 \
     GAMEMODE="survival" \
     FORCE_GAMEMODE=false \
     DIFFICULTY="easy" \
@@ -43,7 +45,7 @@ ENV TIMEZONE=America/Los_Angeles \
 EXPOSE 19132-19133/udp
 
 RUN apt-get update
-RUN apt-get install software-properties-common apt-transport-https curl unzip screen -y
+RUN apt-get install software-properties-common apt-transport-https curl unzip expect -y
 
 RUN mkdir /prep
 
@@ -53,8 +55,14 @@ RUN unzip /prep/bedrock-server-1.20.81.01.zip -d /prep
 RUN rm /prep/bedrock-server-1.20.81.01.zip
 
 COPY server.sh server.sh
+COPY server.exp server.exp
+COPY bootstrap.sh bootstrap.sh
+COPY backup-map.sh backup-map.sh
 
 RUN chmod +x server.sh
 RUN chmod +x /prep/bedrock_server
+RUN chmod +x server.exp
+RUN chmod +x bootstrap.sh
+RUN chmod +x backup-map.sh
 
-CMD ["/bin/bash", "server.sh"]
+CMD ["/bin/bash", "bootstrap.sh"]

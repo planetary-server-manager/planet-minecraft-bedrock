@@ -1,0 +1,41 @@
+#!/usr/bin/expect
+
+set timeout 10
+set BACKUP_INTERVAL_SECONDS [lindex $argv 0]
+spawn /server.sh
+
+while true {
+    expect {
+        "Server started.\r" {
+            send "save hold\r"
+            expect "Saving..."
+            send "save query\r"
+            expect {
+                "Data saved." {
+                    exec ./backup-map.sh
+                    sleep 5
+                }
+                timeout {
+                    exp_continue
+                }
+            }
+            send "save resume\r"
+        }
+        timeout {
+            sleep $BACKUP_INTERVAL_SECONDS
+            send "save hold\r"
+            expect "Saving..."
+            send "save query\r"
+            expect {
+                "Data saved." {
+                    exec ./backup-map.sh
+                    sleep 5
+                }
+                timeout {
+                    exp_continue
+                }
+            }
+            send "save resume\r"
+        }
+    }
+}
