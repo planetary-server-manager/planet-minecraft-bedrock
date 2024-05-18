@@ -3,8 +3,8 @@ FROM ubuntu:latest
 LABEL maintainer="thekraken8him"
 
 ENV TIMEZONE=America/Los_Angeles \
-    PUID=0 \
-    PGID=0 \
+    PUID=1000 \
+    PGID=1000 \
     SERVER_NAME="Jellie Frontier Server" \
     WORLD_NAME="jellie-frontier" \
     WORLD_SEED= \
@@ -48,6 +48,7 @@ EXPOSE 19132-19133/udp
 RUN apt-get update
 RUN apt-get install software-properties-common apt-transport-https curl unzip expect -y
 
+RUN usermod -l minecraft ubuntu
 RUN mkdir /prep
 
 # Download bedrock-server
@@ -61,11 +62,11 @@ COPY bootstrap.sh bootstrap.sh
 COPY backup-map.sh backup-map.sh
 COPY backup-pause.sh backup-pause.sh
 
-RUN chmod +x server.sh
-RUN chmod +x /prep/bedrock_server
-RUN chmod +x server.exp
-RUN chmod +x bootstrap.sh
-RUN chmod +x backup-map.sh
-RUN chmod +x backup-pause.sh
+RUN chmod 770 server.sh && chown minecraft server.sh
+RUN chmod +x /prep/bedrock_server && chown -R minecraft /prep
+RUN chmod 770 server.exp && chown minecraft server.exp
+RUN chmod 770 bootstrap.sh && chown minecraft bootstrap.sh
+RUN chmod 770 backup-map.sh && chown minecraft backup-map.sh
+RUN chmod 770 backup-pause.sh && chown minecraft backup-pause.sh
 
 CMD ["/bin/bash", "bootstrap.sh"]
