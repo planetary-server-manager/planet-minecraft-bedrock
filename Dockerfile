@@ -52,9 +52,9 @@ RUN usermod -l minecraft ubuntu
 RUN mkdir /prep
 
 # Download bedrock-server
-RUN curl https://minecraft.azureedge.net/bin-linux/bedrock-server-1.21.1.03.zip -o /prep/bedrock-server-1.21.1.03.zip
-RUN unzip /prep/bedrock-server-1.21.1.03.zip -d /prep
-RUN rm /prep/bedrock-server-1.21.1.03.zip
+RUN curl https://minecraft.azureedge.net/bin-linux/bedrock-server-1.21.23.01.zip -o /prep/bedrock-server-1.21.23.01.zip
+RUN unzip /prep/bedrock-server-1.21.23.01.zip -d /prep
+RUN rm /prep/bedrock-server-1.21.23.01.zip
 
 COPY server.sh server.sh
 COPY server.exp server.exp
