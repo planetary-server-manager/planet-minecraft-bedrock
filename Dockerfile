@@ -8,8 +8,8 @@ ENV TIMEZONE=America/Los_Angeles \
     SERVER_NAME="Jellie Frontier Server" \
     WORLD_NAME="jellie-frontier" \
     WORLD_SEED= \
+    AUTO_UPDATE=true \
     BACKUPS=false \
-    BACKUP_INTERVAL=24 \
     GAMEMODE="survival" \
     FORCE_GAMEMODE=false \
     DIFFICULTY="easy" \
@@ -46,25 +46,19 @@ ENV TIMEZONE=America/Los_Angeles \
 EXPOSE 19132-19133/udp
 
 RUN apt-get update
-RUN apt-get install software-properties-common apt-transport-https curl unzip expect -y
+RUN apt-get install software-properties-common apt-transport-https curl unzip -y
 
 RUN usermod -l minecraft ubuntu
-RUN mkdir /prep
+RUN mkdir /prep && chown -R minecraft /prep
 
-# Download bedrock-server
-RUN curl https://minecraft.azureedge.net/bin-linux/bedrock-server-1.21.23.01.zip -o /prep/bedrock-server-1.21.23.01.zip
-RUN unzip /prep/bedrock-server-1.21.23.01.zip -d /prep
-RUN rm /prep/bedrock-server-1.21.23.01.zip
-
+COPY update.sh update.sh
 COPY server.sh server.sh
-COPY server.exp server.exp
 COPY bootstrap.sh bootstrap.sh
 COPY backup-map.sh backup-map.sh
 COPY backup-pause.sh backup-pause.sh
 
+RUN chmod 770 update.sh && chown minecraft update.sh
 RUN chmod 770 server.sh && chown minecraft server.sh
-RUN chmod +x /prep/bedrock_server && chown -R minecraft /prep
-RUN chmod 770 server.exp && chown minecraft server.exp
 RUN chmod 770 bootstrap.sh && chown minecraft bootstrap.sh
 RUN chmod 770 backup-map.sh && chown minecraft backup-map.sh
 RUN chmod 770 backup-pause.sh && chown minecraft backup-pause.sh

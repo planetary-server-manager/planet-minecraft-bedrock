@@ -2,13 +2,17 @@
 Containerized Minecraft Bedrock server for easy portability, deployment, and configuration.
 
 # Summary
-This is an all-in one container for running a Minecraft Bedrock server. Each version tag corresponds to the Minecraft Bedrock dedicated server version that comes bundled in.
+This is an all-in one container for running a Minecraft Bedrock server.
+
+# Auto Updates
+Automatic updates are turned **on** by default. This will ensure the container always downloads the latest server version every time it starts. If you would like to stay on your current version and disable auto updates, set **AUTO_UPDATE** to **false**.
+
+> **Note**: **AUTO_UPDATE** must be set to **true** for the first run of the container, otherwise no server will be downloaded.
 
 # World Backups
 ### Enable Backups
 Automatic backups are turned **off** by default. To utilize automatic backups, you will need to do the following:
 * Set the **BACKUPS** environment variable to **true**.
-* Set the **BACKUP_INTERVAL** to your desired backup frequency in hours.
 * Map the **/world-backups** volume to your host.
 
 If you would rather do your own backups manually, your (live) world is contained in the **/server/worlds** folder. I **highly** recommend utilizing the "save" commands described in **/server/bedrock_server_how_to.html** to avoid world corruption.
@@ -17,10 +21,6 @@ If you would rather do your own backups manually, your (live) world is contained
 If **BACKUPS** is set to **true**, then each time the container is run, it will automatically create a backup of your **WORLD_NAME** in the **/world-backups** folder. Each backup will be appended with the date and time (%Y-%m-%d_%H-%M-%S format). 
 
 > **Example**: If your world is called **"jellie-frontier"**, and the map is saved on January 2nd, 2024 at exactly 3:45am, the backup will be called **"jellie-frontier-20204-01-02_03-45-00"**.
-
-After the initial backup, it will periodically make new backups according to the value of **BACKUP_INTERVAL** in hours. 
-
-> **Example**: If your **BACKUP_INTERVAL** is set to **24** (default), the container will make a backup of your map once per day. 
 
 # Volumes
 > :warning: **Important**: It is highly recommended that you map these volumes to your host machine. Otherwise all save data and configuration will be lost when the container is deleted/updated.
@@ -38,8 +38,8 @@ These environment variables map directly to the settings in the **server.propert
 | SERVER_NAME | Any string (no semicolon allowed) | Jellie Frontier Server | Always | This is the server name shown in the in-game server list. |
 | WORLD_NAME | Any string | jellie-frontier | Always | The name of level to be used/generated. Each level has its own folder in **/worlds**. |
 | WORLD_SEED | Any string |   | World creation | The seed to be used for randomizing the world. If left empty a seed will be chosen at random. |
-| BACKUPS | true, false | false | Always | Setting this value to **true** will enable automatic world backups every **BACKUP_INTERVAL** hours in the **/world-backups** folder. See [World Backups](#world-backups) for more information. |
-| BACKUP_INTERVAL | Any positive integer | 24 | When **BACKUPS** is **true** | Sets the interval in hours at which backups will be automatically saved to the **/world-backups** folder. See [World Backups](#world-backups) for more information. |
+| AUTO_UPDATE | true, false | true | When container (re)starts | Setting this to **false** will disable auto updates and the server will stay on the current version. See [Auto Updates](#auto-updates). |
+| BACKUPS | true, false | false | When container (re)starts | Setting this value to **true** will enable automatic world backups every time the container (re)starts in the **/world-backups** folder. See [World Backups](#world-backups) for more information. |
 | GAMEMODE | survival, creative, adventure | survival | Always or only for new players |   | 
 | FORCE_GAMEMODE | true, false | false | Always | **force-gamemode=false**(or force-gamemode is not defined in the server.properties file) prevents the server from sending to the client gamemode values other than the gamemode value saved by the server during world creation even if those values are set in server.properties file after world creation. <br> **force-gamemode=true** forces the server to send to the client gamemode values other than the gamemode value saved by the server during world creation if those values are set in server.properties file after world creation. |
 | DIFFICULTY | peaceful, easy, normal, hard | easy | Always |   |
