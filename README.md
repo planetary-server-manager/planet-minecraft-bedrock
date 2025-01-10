@@ -1,8 +1,5 @@
 # Minecraft Bedrock Dedicated Server
-Containerized Minecraft Bedrock server for easy portability, deployment, and configuration.
-
-# Summary
-This is an all-in one container for running a Minecraft Bedrock server.
+PSM container image for Minecraft Bedrock. It provides tight integration with the [PSM API](https://github.com/planetary-server-manager/api-server).
 
 # Auto Updates
 Automatic updates are turned **on** by default. This will ensure the container always downloads the latest server version every time it starts. If you would like to stay on your current version and disable auto updates, set **AUTO_UPDATE** to **false**.
@@ -20,7 +17,7 @@ If you would rather do your own backups manually, your (live) world is contained
 ### How Backups Work
 If **BACKUPS** is set to **true**, then each time the container is run, it will automatically create a backup of your **WORLD_NAME** in the **/world-backups** folder. Each backup will be appended with the date and time (%Y-%m-%d_%H-%M-%S format). 
 
-> **Example**: If your world is called **"jellie-frontier"**, and the map is saved on January 2nd, 2024 at exactly 3:45am, the backup will be called **"jellie-frontier-20204-01-02_03-45-00"**.
+> **Example**: If your world is called **"planetary-minecraft"**, and the map is saved on January 2nd, 2024 at exactly 3:45am, the backup will be called **"planetary-minecraft-20204-01-02_03-45-00"**.
 
 # Volumes
 > :warning: **Important**: It is highly recommended that you map these volumes to your host machine. Otherwise all save data and configuration will be lost when the container is deleted/updated.
@@ -35,8 +32,8 @@ These environment variables map directly to the settings in the **server.propert
 
 | Variable | Possible Values | Default Value | When it is used | Notes | 
 | --- | --- | --- | --- | --- |
-| SERVER_NAME | Any string (no semicolon allowed) | Jellie Frontier Server | Always | This is the server name shown in the in-game server list. |
-| WORLD_NAME | Any string | jellie-frontier | Always | The name of level to be used/generated. Each level has its own folder in **/worlds**. |
+| SERVER_NAME | Any string (no semicolon allowed) | Planetary Minecraft Server | Always | This is the server name shown in the in-game server list. |
+| WORLD_NAME | Any string | planetary-minecraft | Always | The name of level to be used/generated. Each level has its own folder in **/worlds**. |
 | WORLD_SEED | Any string |   | World creation | The seed to be used for randomizing the world. If left empty a seed will be chosen at random. |
 | AUTO_UPDATE | true, false | true | When container (re)starts | Setting this to **false** will disable auto updates and the server will stay on the current version. See [Auto Updates](#auto-updates). |
 | BACKUPS | true, false | false | When container (re)starts | Setting this value to **true** will enable automatic world backups every time the container (re)starts in the **/world-backups** folder. See [World Backups](#world-backups) for more information. |
@@ -47,7 +44,7 @@ These environment variables map directly to the settings in the **server.propert
 | MAX_PLAYERS | Any integer | 10 | Always | The maximum numbers of players that should be able to play on the server. **Higher values have performance impact.** |
 | CHAT_RESTRICTION | None, Dropped, Disabled | None | Always | This represents the level of restriction applied to the chat for each player that joins the server. **"None"** is the default and represents regular free chat. **"Dropped"** means the chat messages are dropped and never sent to any client. Players receive a message to let them know the feature is disabled. **"Disabled"** means that unless the player is an operator, the chat UI does not even appear. No information is displayed to the player. |
 | ONLINE_MODE | true, false | true | Always |  	If true, all connected players must be authenticated with Xbox Live. Clients connecting to remote (non-LAN) servers will always require Xbox Live authentication regardless of this setting. If the server accepts connections from the Internet, then it is **highly** recommended to enable online-mode. |
-| ALLOW_LIST | true, false | false | Always | If true then all connected players must be listed in the separate **allowlist.json** file. |
+| ALLOW_LIST | true, false | true | Always | If true then all connected players must be listed in the separate **allowlist.json** file. This is a generalized variable that all PSM containers share. |
 | ENABLE_LAN_VISIBILITY | true, false | true | Always | Listen and respond to clients that are looking for servers on the LAN. This will cause the server to bind to the default ports (19132, 19133) even when 'server-port' and 'server-portv6' have non-default values. Consider turning this off if LAN discovery is not desirable, or when running multiple servers on the same host may lead to port conflicts. |
 | VIEW_DISTANCE | Any integer greater than 5 | 32 | Always | The maximum allowed view distance. **Higher values have performance impact.** |
 | TICK_DISTANCE | An integer in the range [4, 12] | 4 | Always | The world will be ticked this many chunks away from any player. **Higher values have performance impact.** |

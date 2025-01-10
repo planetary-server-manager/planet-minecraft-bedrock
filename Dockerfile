@@ -1,23 +1,16 @@
-FROM ubuntu:latest
+FROM ghcr.io/planetary-server-manager/planetary-base:latest
 
 LABEL maintainer="thekraken8him"
 
-ENV TIMEZONE=America/Los_Angeles \
-    PUID=1000 \
-    PGID=1000 \
-    SERVER_NAME="Jellie Frontier Server" \
-    WORLD_NAME="jellie-frontier" \
+ENV SERVER_NAME="Planetary Minecraft Server" \
+    WORLD_NAME="planetary-minecraft" \
     WORLD_SEED= \
-    AUTO_UPDATE=true \
-    BACKUPS=false \
     GAMEMODE="survival" \
     FORCE_GAMEMODE=false \
     DIFFICULTY="easy" \
     ALLOW_CHEATS=false \
-    MAX_PLAYERS=10 \
     CHAT_RESTRICTION="None" \
     ONLINE_MODE=true \
-    ALLOW_LIST=false \
     ENABLE_LAN_VISIBILITY=true \
     VIEW_DISTANCE=32 \
     TICK_DISTANCE=4 \
@@ -55,12 +48,10 @@ COPY update.sh update.sh
 COPY server.sh server.sh
 COPY bootstrap.sh bootstrap.sh
 COPY backup-map.sh backup-map.sh
-COPY backup-pause.sh backup-pause.sh
 
 RUN chmod 770 update.sh && chown minecraft update.sh
 RUN chmod 770 server.sh && chown minecraft server.sh
 RUN chmod 770 bootstrap.sh && chown minecraft bootstrap.sh
 RUN chmod 770 backup-map.sh && chown minecraft backup-map.sh
-RUN chmod 770 backup-pause.sh && chown minecraft backup-pause.sh
 
 CMD ["/bin/bash", "bootstrap.sh"]
