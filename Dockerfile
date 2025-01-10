@@ -38,17 +38,10 @@ ENV SERVER_NAME="Planetary Minecraft Server" \
 
 EXPOSE 19132-19133/udp
 
-RUN apt-get update
-RUN apt-get install software-properties-common apt-transport-https curl unzip -y
-
 RUN usermod -l minecraft ubuntu
-RUN mkdir /prep && chown -R minecraft /prep
 
-COPY /scripts/update.sh /scripts/update.sh
-COPY /scripts/server.sh /scripts/server.sh
-COPY /scripts/bootstrap.sh /scripts/bootstrap.sh
-COPY /scripts/backup-map.sh /scripts/backup-map.sh
+COPY /scripts /scripts
 
-RUN chmod 770 /scripts && chown -R /scripts
+RUN chmod -R 770 /scripts && chown -R minecraft /scripts
 
 CMD ["/bin/bash", "/scripts/bootstrap.sh"]
