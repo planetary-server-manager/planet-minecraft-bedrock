@@ -1,4 +1,5 @@
 #!/bin/bash
+cd /scripts
 ls -l && \
 if $AUTO_UPDATE ; then
     ./update.sh

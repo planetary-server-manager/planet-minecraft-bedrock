@@ -44,14 +44,11 @@ RUN apt-get install software-properties-common apt-transport-https curl unzip -y
 RUN usermod -l minecraft ubuntu
 RUN mkdir /prep && chown -R minecraft /prep
 
-COPY update.sh update.sh
-COPY server.sh server.sh
-COPY bootstrap.sh bootstrap.sh
-COPY backup-map.sh backup-map.sh
+COPY /scripts/update.sh /scripts/update.sh
+COPY /scripts/server.sh /scripts/server.sh
+COPY /scripts/bootstrap.sh /scripts/bootstrap.sh
+COPY /scripts/backup-map.sh /scripts/backup-map.sh
 
-RUN chmod 770 update.sh && chown minecraft update.sh
-RUN chmod 770 server.sh && chown minecraft server.sh
-RUN chmod 770 bootstrap.sh && chown minecraft bootstrap.sh
-RUN chmod 770 backup-map.sh && chown minecraft backup-map.sh
+RUN chmod 770 /scripts && chown -R /scripts
 
-CMD ["/bin/bash", "bootstrap.sh"]
+CMD ["/bin/bash", "/scripts/bootstrap.sh"]
