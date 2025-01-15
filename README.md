@@ -1,6 +1,11 @@
 # Minecraft Bedrock Dedicated Server
 PSM container image for Minecraft Bedrock. It provides tight integration with the [PSM API](https://github.com/planetary-server-manager/api-server).
 
+# Secure by Default
+All PSM servers are secure by default. This means that `ALLOW_LIST` is set to `true` by default. To play on the server you must add users to the `ALLOW_LIST_MEMBERS` environment variable ([see below](#environment-variables)).
+
+You can disable this by setting `ALLOW_LIST` to `false`, but this is not recommended as **anyone** will be able to join your server.
+
 # Auto Updates
 Automatic updates are turned **on** by default. This will ensure the container always downloads the latest server version every time it starts. If you would like to stay on your current version and disable auto updates, set **AUTO_UPDATE** to **false**.
 
@@ -20,7 +25,7 @@ If **BACKUPS** is set to **true**, then each time the container is run, it will 
 > **Example**: If your world is called **"planetary-minecraft"**, and the map is saved on January 2nd, 2024 at exactly 3:45am, the backup will be called **"planetary-minecraft-20204-01-02_03-45-00"**.
 
 # Volumes
-> :warning: **Important**: It is highly recommended that you map these volumes to your host machine. Otherwise all save data and configuration will be lost when the container is deleted/updated.
+> ⚠️ **Important**: It is highly recommended that you map these volumes to your host machine. Otherwise all save data and configuration will be lost when the container is deleted/updated.
 
 | Path | Description |
 | --- | --- |
@@ -44,7 +49,8 @@ These environment variables map directly to the settings in the **server.propert
 | MAX_PLAYERS | Any integer | 10 | Always | The maximum numbers of players that should be able to play on the server. **Higher values have performance impact.** |
 | CHAT_RESTRICTION | None, Dropped, Disabled | None | Always | This represents the level of restriction applied to the chat for each player that joins the server. **"None"** is the default and represents regular free chat. **"Dropped"** means the chat messages are dropped and never sent to any client. Players receive a message to let them know the feature is disabled. **"Disabled"** means that unless the player is an operator, the chat UI does not even appear. No information is displayed to the player. |
 | ONLINE_MODE | true, false | true | Always |  	If true, all connected players must be authenticated with Xbox Live. Clients connecting to remote (non-LAN) servers will always require Xbox Live authentication regardless of this setting. If the server accepts connections from the Internet, then it is **highly** recommended to enable online-mode. |
-| ALLOW_LIST | true, false | true | Always | If true then all connected players must be listed in the separate **allowlist.json** file. This is a generalized variable that all PSM containers share. |
+| ALLOW_LIST | true, false | true | Always | If true then all connected players must be listed in the **allowlist.json** file.<br>⚠️ Be sure to set `ALLOW_LIST_MEMBERS` below or no one will be able to join your server. <br><br> This is a generalized variable that all PSM containers share. |
+| ALLOW_LIST_MEMBERS | string (see Notes for formatting) | *null* | Always | List of members to be added to **allowlist.json** file. Member Xbox gamertags must be listed with their XUIDs, separated by semicolons.<br>Example:<br>`ALLOW_LIST_MEMBERS="gamertag1,xuid1;gamertag2,xuid2;gamertag3,xuid3"`<br>You can find a user's XUID by entering their gamertag [here](https://www.cxkes.me/xbox/xuid).<br><br> This is a generalized variable that all PSM containers share. |
 | ENABLE_LAN_VISIBILITY | true, false | true | Always | Listen and respond to clients that are looking for servers on the LAN. This will cause the server to bind to the default ports (19132, 19133) even when 'server-port' and 'server-portv6' have non-default values. Consider turning this off if LAN discovery is not desirable, or when running multiple servers on the same host may lead to port conflicts. |
 | VIEW_DISTANCE | Any integer greater than 5 | 32 | Always | The maximum allowed view distance. **Higher values have performance impact.** |
 | TICK_DISTANCE | An integer in the range [4, 12] | 4 | Always | The world will be ticked this many chunks away from any player. **Higher values have performance impact.** |

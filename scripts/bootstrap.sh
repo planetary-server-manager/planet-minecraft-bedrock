@@ -11,4 +11,6 @@ if $BACKUPS ; then
 else
     echo "Backups disabled. Skipping."
 fi && \
+./update-properties.sh && \
+./allowlist.sh && \
 ./server.sh
