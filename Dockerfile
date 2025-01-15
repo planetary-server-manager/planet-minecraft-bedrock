@@ -44,4 +44,6 @@ COPY /scripts /scripts
 
 RUN chmod -R 770 /scripts && chown -R minecraft /scripts
 
+USER minecraft
+
 CMD ["/bin/bash", "/scripts/bootstrap.sh"]
