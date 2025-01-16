@@ -1,4 +1,4 @@
-# Minecraft Bedrock Dedicated Server
+# 🪐 Planetary Minecraft Bedrock Server
 PSM container image for Minecraft Bedrock. It provides tight integration with the [PSM API](https://github.com/planetary-server-manager/api-server).
 
 # Secure by Default
